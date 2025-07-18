@@ -36,6 +36,23 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeHeroCarousel();
     initializeAnimations();
     initializeServiceSelection();
+
+    // Gestion du switch de services sur la page Nos Services
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    const serviceContents = document.querySelectorAll('.service-content');
+    if (toggleBtns.length && serviceContents.length) {
+        function showService(serviceId) {
+            toggleBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.service === serviceId);
+            });
+            serviceContents.forEach(content => {
+                content.classList.toggle('active', content.id === `${serviceId}-content`);
+            });
+        }
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => showService(btn.dataset.service));
+        });
+    }
 });
 
 // Service selection handling
@@ -604,56 +621,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateButtons();
         });
     }
-});
-
-// Gestion du menu burger
-document.addEventListener('DOMContentLoaded', () => {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    const navbar = document.getElementById('navbar');
-    let isMenuOpen = false;
-
-    // Fonction pour fermer le menu
-    const closeMenu = () => {
-        navToggle.classList.remove('active');
-        navMenu.classList.remove('active');
-        isMenuOpen = false;
-    };
-
-    // Toggle du menu burger
-    navToggle.addEventListener('click', () => {
-        navToggle.classList.toggle('active');
-        navMenu.classList.toggle('active');
-        isMenuOpen = !isMenuOpen;
-    });
-
-    // Fermer le menu au clic sur un lien
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-
-    // Fermer le menu au clic en dehors
-    document.addEventListener('click', (e) => {
-        if (isMenuOpen && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
-            closeMenu();
-        }
-    });
-
-    // Fermer le menu au redimensionnement
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768 && isMenuOpen) {
-            closeMenu();
-        }
-    });
-
-    // Gestion du scroll pour la navbar
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
 });
 
 // Génération des avis clients
