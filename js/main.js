@@ -27,17 +27,8 @@ let lastScrollTop = 0;
 const scrollDelta = 10;
 let isNavbarVisible = true;
 
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-    initializeNavigation();
-    initializeScrollEffects();
-    initializeForms();
-    initializeReviewsSlider();
-    initializeHeroCarousel();
-    initializeAnimations();
-    initializeServiceSelection();
-
-    // Gestion du switch de services sur la page Nos Services
+// Fonction pour gérer le switch de services
+function initializeServiceToggle() {
     const toggleBtns = document.querySelectorAll('.toggle-btn');
     const serviceContents = document.querySelectorAll('.service-content');
     if (toggleBtns.length && serviceContents.length) {
@@ -50,9 +41,25 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         toggleBtns.forEach(btn => {
-            btn.addEventListener('click', () => showService(btn.dataset.service));
+            // Supprimer les anciens event listeners
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            // Ajouter le nouveau event listener
+            newBtn.addEventListener('click', () => showService(newBtn.dataset.service));
         });
     }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    initializeNavigation();
+    initializeScrollEffects();
+    initializeForms();
+    initializeReviewsSlider();
+    initializeHeroCarousel();
+    initializeAnimations();
+    initializeServiceSelection();
+    initializeServiceToggle(); // Initialiser le switch de services
 });
 
 // Service selection handling
@@ -151,6 +158,7 @@ function initializeScrollEffects() {
         if (navbar) {
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
+                initializeServiceToggle(); // Réinitialiser le switch de services après le scroll
             } else {
                 navbar.classList.remove('scrolled');
             }
