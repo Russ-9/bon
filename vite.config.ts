@@ -14,6 +14,14 @@ export default defineConfig({
         services: './services.html',
         tarifs: './tarifs.html',
       },
+      output: {
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name].[ext]'
+      }
     },
+    assetsInlineLimit: 0,
+    emptyOutDir: true,
+    sourcemap: true
   },
 });
