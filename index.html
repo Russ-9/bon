@@ -183,6 +183,7 @@
             <p class="section-subtitle">Obtenez une estimation personnalisée et gratuite</p>
             
             <form class="quote-form" id="quote-form" action="https://formspree.io/f/xzzgnegr" method="POST">
+                <input type="hidden" name="_subject" value="Nouvelle demande de devis Bel'Air">
                 <div class="form-group">
                     <label class="form-label">Type de client</label>
                     <div class="radio-group">
@@ -255,6 +256,7 @@
                     <label for="commentaires" class="form-label">Commentaires</label>
                     <textarea id="commentaires" name="commentaires" rows="4" placeholder="Décrivez votre projet, vos attentes particulières..."></textarea>
                 </div>
+                <input type="hidden" name="_next" value="https://belair-services.vercel.app/">
                 <button type="submit" class="btn btn-primary btn-large">Envoyer ma demande de devis</button>
             </form>
         </div>

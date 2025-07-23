@@ -235,34 +235,6 @@ function initializeForms() {
                 }
             });
         });
-
-        // Form submission
-        quoteForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (validateForm(this)) {
-                // Simulate form submission
-                const formData = new FormData(this);
-                const data = Object.fromEntries(formData);
-                
-                // In a real application, you would send this data to your server
-                console.log('Quote form data:', data);
-                
-                // Show success message
-                showSuccessMessage('Votre demande de devis a été envoyée avec succès !');
-                
-                // Reset form
-                this.reset();
-                
-                // Hide company field if it was shown
-                if (entrepriseGroup) {
-                    entrepriseGroup.style.display = 'none';
-                }
-                if (entrepriseInput) {
-                    entrepriseInput.removeAttribute('required');
-                }
-            }
-        });
     }
 
     // Contact form
