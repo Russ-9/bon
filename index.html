@@ -217,35 +217,35 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="nom" class="form-label">Nom *</label>
-                        <input type="text" id="nom" name="nom" required>
+                        <input type="text" id="nom" name="nom" required autocomplete="family-name">
                     </div>
                     <div class="form-group">
                         <label for="prenom" class="form-label">Prénom *</label>
-                        <input type="text" id="prenom" name="prenom" required>
+                        <input type="text" id="prenom" name="prenom" required autocomplete="given-name">
                     </div>
                 </div>
                 <div class="form-group" id="entreprise-group" style="display: none;">
                     <label for="entreprise" class="form-label">Entreprise</label>
-                    <input type="text" id="entreprise" name="entreprise">
+                    <input type="text" id="entreprise" name="entreprise" autocomplete="organization">
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="email" class="form-label">Email *</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" required autocomplete="email" inputmode="email">
                     </div>
                     <div class="form-group">
                         <label for="telephone" class="form-label">Téléphone *</label>
-                        <input type="tel" id="telephone" name="telephone" required>
+                        <input type="tel" id="telephone" name="telephone" required autocomplete="tel" inputmode="tel" pattern="[0-9]{10}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="adresse" class="form-label">Adresse *</label>
-                    <textarea id="adresse" name="adresse" rows="2" required></textarea>
+                    <textarea id="adresse" name="adresse" rows="2" required autocomplete="street-address"></textarea>
                 </div>
                 <div class="form-row">
                     <div class="form-group" id="mesure-group">
                         <label for="superficie" class="form-label" id="mesure-label">Nombre de panneaux</label>
-                        <input type="number" id="superficie" name="superficie" min="1">
+                        <input type="number" id="superficie" name="superficie" min="1" inputmode="numeric">
                     </div>
                     <div class="form-group">
                         <label for="date" class="form-label">Date souhaitée</label>
