@@ -257,28 +257,6 @@ function initializeForms() {
         });
     }
 
-    // Contact form
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (validateForm(this)) {
-                // Simulate form submission
-                const formData = new FormData(this);
-                const data = Object.fromEntries(formData);
-                
-                // In a real application, you would send this data to your server
-                console.log('Contact form data:', data);
-                
-                // Show success message
-                showSuccessMessage('Votre message a été envoyé avec succès !');
-                
-                // Reset form
-                this.reset();
-            }
-        });
-    }
-
     // Set minimum date for date input
     const dateInput = document.getElementById('date');
     if (dateInput) {
@@ -338,23 +316,82 @@ function isValidPhone(phone) {
     return phoneRegex.test(phone.replace(/\s/g, ''));
 }
 
-// Reviews slider
+// Reviews slider navigation
 function initializeReviewsSlider() {
-    if (slides.length === 0) return;
+    const slider = document.getElementById('reviewsSlider');
+    const prevButton = document.getElementById('prevReview');
+    const nextButton = document.getElementById('nextReview');
+    
+    if (slider && prevButton && nextButton) {
+        let currentPosition = 0;
+        const cardWidth = window.innerWidth <= 480 ? 280 : window.innerWidth <= 768 ? 300 : 350; // Largeur adaptative
+        const gap = window.innerWidth <= 480 ? 12 : window.innerWidth <= 768 ? 16 : 32; // Gap adaptatif
+        const slideWidth = cardWidth + gap;
+        
+        function updateSliderPosition() {
+            slider.style.transform = `translateX(${currentPosition}px)`;
+        }
 
-    // Auto-slide functionality
-    setInterval(() => {
-        currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
-    }, 6000); // Plus de temps pour lire les avis
+        function updateButtonStates() {
+            const containerWidth = slider.parentElement.offsetWidth;
+            const totalWidth = slider.children.length * slideWidth;
+            const maxScroll = -(totalWidth - containerWidth);
+            
+            prevButton.disabled = currentPosition >= 0;
+            nextButton.disabled = currentPosition <= maxScroll;
+            
+            // Ajout des classes pour le style visuel
+            prevButton.classList.toggle('disabled', currentPosition >= 0);
+            nextButton.classList.toggle('disabled', currentPosition <= maxScroll);
+        }
 
-    // Navigation dots
-    navDots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            currentSlide = index;
-            showSlide(currentSlide);
+        function moveSlider(direction) {
+            const containerWidth = slider.parentElement.offsetWidth;
+            const totalWidth = slider.children.length * slideWidth;
+            const maxScroll = -(totalWidth - containerWidth);
+            
+            // Calcul de la nouvelle position
+            const newPosition = currentPosition + (direction * slideWidth);
+            
+            // Application des limites
+            currentPosition = Math.max(Math.min(newPosition, 0), maxScroll);
+            
+            // Animation fluide
+            slider.style.transition = 'transform 0.3s ease';
+            updateSliderPosition();
+            updateButtonStates();
+        }
+
+        // Écouteurs d'événements
+        prevButton.addEventListener('click', () => moveSlider(1));
+        nextButton.addEventListener('click', () => moveSlider(-1));
+
+        // Gestion du redimensionnement
+        window.addEventListener('resize', () => {
+            // Mise à jour des dimensions
+            const newCardWidth = window.innerWidth <= 480 ? 280 : window.innerWidth <= 768 ? 300 : 350;
+            const newGap = window.innerWidth <= 480 ? 12 : window.innerWidth <= 768 ? 16 : 32;
+            const containerWidth = slider.parentElement.offsetWidth;
+            const totalWidth = slider.children.length * (newCardWidth + newGap);
+            const maxScroll = -(totalWidth - containerWidth);
+            
+            // Ajustement de la position si nécessaire
+            currentPosition = Math.max(Math.min(currentPosition, 0), maxScroll);
+            
+            // Mise à jour sans animation
+            slider.style.transition = 'none';
+            updateSliderPosition();
+            updateButtonStates();
+            
+            // Réactivation de la transition après un court délai
+            setTimeout(() => {
+                slider.style.transition = 'transform 0.3s ease';
+            }, 50);
         });
-    });
+
+        // Initialisation
+        updateButtonStates();
+    }
 }
 
 // Show specific slide
