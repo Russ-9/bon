@@ -27,6 +27,30 @@ let lastScrollTop = 0;
 const scrollDelta = 10;
 let isNavbarVisible = true;
 
+// Gestion du switch de services sur la page Nos Services
+function initializeServiceToggle() {
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    const serviceContents = document.querySelectorAll('.service-content');
+    
+    if (toggleBtns.length && serviceContents.length) {
+        function showService(serviceId) {
+            toggleBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.service === serviceId);
+            });
+            serviceContents.forEach(content => {
+                content.classList.toggle('active', content.id === `${serviceId}-content`);
+            });
+        }
+        
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showService(btn.dataset.service);
+            });
+        });
+    }
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
@@ -36,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeHeroCarousel();
     initializeAnimations();
     initializeServiceSelection();
-    initializeServiceToggle(); // Add this line
+    initializeServiceToggle(); // Ajout de l'initialisation du toggle de services
 });
 
 // Service selection handling
@@ -745,45 +769,3 @@ function generateReviews() {
 document.addEventListener('DOMContentLoaded', () => {
     generateReviews();
 });
-
-// Gestion du switch de services
-function initializeServiceToggle() {
-    const toggleBtns = document.querySelectorAll('.toggle-btn');
-    const serviceContents = document.querySelectorAll('.service-content');
-    
-    if (toggleBtns.length && serviceContents.length) {
-        function showService(serviceId) {
-            toggleBtns.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.service === serviceId);
-            });
-            serviceContents.forEach(content => {
-                content.classList.toggle('active', content.id === `${serviceId}-content`);
-            });
-        }
-        
-        toggleBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                showService(btn.dataset.service);
-                // Scroll to content with offset for fixed header
-                const targetContent = document.getElementById(`${btn.dataset.service}-content`);
-                if (targetContent) {
-                    const offset = 100; // Adjust based on your header height
-                    const elementPosition = targetContent.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - offset;
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Show initial service based on URL hash or default to first service
-        const hash = window.location.hash.replace('#', '');
-        if (hash && document.getElementById(`${hash}-content`)) {
-            showService(hash);
-        } else {
-            showService(toggleBtns[0].dataset.service);
-        }
-    }
-}
