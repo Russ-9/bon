@@ -296,7 +296,7 @@ body {
     position: relative;
     z-index: 2;
     text-align: center;
-    padding-top: 15vh; /* Ajout d'un padding-top pour contrôler la position */
+    padding-top: 20vh; /* Augmenté de 15vh à 20vh pour descendre l'encadré */
 }
 
 .hero-text {
@@ -2827,5 +2827,91 @@ body {
     .review-nav svg {
         width: 18px;
         height: 18px;
+    }
+}
+
+/* About Sites List Styles */
+.about-sites {
+    margin-top: 2rem;
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.about-sites h4 {
+    color: var(--color-blue);
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.about-sites ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.about-sites li {
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid rgba(74, 111, 165, 0.1);
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.about-sites li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: #fff;
+}
+
+.about-sites li strong {
+    color: var(--color-blue);
+    margin-right: 0.5rem;
+    font-weight: 600;
+    min-width: 140px;
+}
+
+@media screen and (max-width: 768px) {
+    .about-sites {
+        padding: 1.5rem;
+    }
+
+    .about-sites ul {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .about-sites li {
+        padding: 0.75rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .about-sites {
+        padding: 1rem;
+    }
+
+    .about-sites h4 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .about-sites li {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .about-sites li strong {
+        margin-bottom: 0.25rem;
+        min-width: auto;
     }
 }
