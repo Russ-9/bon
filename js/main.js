@@ -452,7 +452,7 @@ function showModal(type) {
             <h2>📌 Mentions légales</h2>
             <div style="margin-top: 1rem; line-height: 1.6;">
                 <p><strong>Nom du site :</strong> Ce que nos clients disent de nous</p>
-                <p><strong>URL :</strong> http://localhost:5173 (à remplacer une fois le site en ligne)</p>
+                <p><strong>URL :</strong> belair-services.vercel.app</p>
                 <p><strong>Nom de l'entreprise :</strong> Bel'Air</p>
                 <p><strong>Statut juridique :</strong> Entreprise individuelle (micro-entreprise)</p>
                 <p><strong>Responsable de publication :</strong> Inès Bendekhil/Adam Bendekhil</p>
