@@ -33,21 +33,41 @@ function initializeServiceToggle() {
     const serviceContents = document.querySelectorAll('.service-content');
     
     if (toggleBtns.length && serviceContents.length) {
+        // Fonction pour afficher le service sélectionné
         function showService(serviceId) {
-            toggleBtns.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.service === serviceId);
-            });
-            serviceContents.forEach(content => {
-                content.classList.toggle('active', content.id === `${serviceId}-content`);
-            });
+            // Désactive tous les boutons et contenus
+            toggleBtns.forEach(btn => btn.classList.remove('active'));
+            serviceContents.forEach(content => content.classList.remove('active'));
+            
+            // Active le bouton et le contenu sélectionnés
+            const selectedBtn = Array.from(toggleBtns).find(btn => btn.dataset.service === serviceId);
+            const selectedContent = document.getElementById(`${serviceId}-content`);
+            
+            if (selectedBtn && selectedContent) {
+                selectedBtn.classList.add('active');
+                selectedContent.classList.add('active');
+                
+                // Scroll doux vers le contenu
+                selectedContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
         
+        // Ajoute les écouteurs d'événements aux boutons
         toggleBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                showService(btn.dataset.service);
+                const serviceId = btn.dataset.service;
+                if (serviceId) {
+                    showService(serviceId);
+                }
             });
         });
+        
+        // Vérifie l'URL pour afficher le bon service au chargement
+        const hash = window.location.hash.replace('#', '');
+        if (hash === 'panneaux' || hash === 'chantier') {
+            showService(hash);
+        }
     }
 }
 
