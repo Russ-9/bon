@@ -27,29 +27,6 @@ let lastScrollTop = 0;
 const scrollDelta = 10;
 let isNavbarVisible = true;
 
-// Fonction pour gérer le switch de services
-function initializeServiceToggle() {
-    const toggleBtns = document.querySelectorAll('.toggle-btn');
-    const serviceContents = document.querySelectorAll('.service-content');
-    if (toggleBtns.length && serviceContents.length) {
-        function showService(serviceId) {
-            toggleBtns.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.service === serviceId);
-            });
-            serviceContents.forEach(content => {
-                content.classList.toggle('active', content.id === `${serviceId}-content`);
-            });
-        }
-        toggleBtns.forEach(btn => {
-            // Supprimer les anciens event listeners
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
-            // Ajouter le nouveau event listener
-            newBtn.addEventListener('click', () => showService(newBtn.dataset.service));
-        });
-    }
-}
-
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
@@ -59,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeHeroCarousel();
     initializeAnimations();
     initializeServiceSelection();
-    initializeServiceToggle(); // Initialiser le switch de services
+    initializeServiceToggle(); // Add this line
 });
 
 // Service selection handling
@@ -158,7 +135,6 @@ function initializeScrollEffects() {
         if (navbar) {
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
-                initializeServiceToggle(); // Réinitialiser le switch de services après le scroll
             } else {
                 navbar.classList.remove('scrolled');
             }
@@ -769,3 +745,45 @@ function generateReviews() {
 document.addEventListener('DOMContentLoaded', () => {
     generateReviews();
 });
+
+// Gestion du switch de services
+function initializeServiceToggle() {
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    const serviceContents = document.querySelectorAll('.service-content');
+    
+    if (toggleBtns.length && serviceContents.length) {
+        function showService(serviceId) {
+            toggleBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.service === serviceId);
+            });
+            serviceContents.forEach(content => {
+                content.classList.toggle('active', content.id === `${serviceId}-content`);
+            });
+        }
+        
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                showService(btn.dataset.service);
+                // Scroll to content with offset for fixed header
+                const targetContent = document.getElementById(`${btn.dataset.service}-content`);
+                if (targetContent) {
+                    const offset = 100; // Adjust based on your header height
+                    const elementPosition = targetContent.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Show initial service based on URL hash or default to first service
+        const hash = window.location.hash.replace('#', '');
+        if (hash && document.getElementById(`${hash}-content`)) {
+            showService(hash);
+        } else {
+            showService(toggleBtns[0].dataset.service);
+        }
+    }
+}
